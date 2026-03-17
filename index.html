@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartWeb Agency | Premium Web Development</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- CSS VARIABLES --- */
+        :root {
+            --bg-dark: #070B14;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary: #2563eb;
+            --primary-glow: rgba(37, 99, 235, 0.5);
+            --secondary: #0ea5e9;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --whatsapp: #25D366;
+            --whatsapp-glow: rgba(37, 211, 102, 0.5);
+            --transition: all 0.3s ease;
+        }
+
+        /* --- GLOBAL STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        
+        /* Background Glow Effects */
+        .bg-glow-1 { position: absolute; top: -10%; left: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, rgba(0,0,0,0) 70%); z-index: -1; }
+        .bg-glow-2 { position: absolute; bottom: 10%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(14,165,233,0.1) 0%, rgba(0,0,0,0) 70%); z-index: -1; }
+
+        /* Typography */
+        h1, h2, h3 { font-weight: 700; line-height: 1.2; }
+        .text-gradient { background: linear-gradient(to right, var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 1rem; }
+        .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 4rem; font-size: 1.1rem; }
+        
+        /* Layout */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        section { padding: 100px 0; position: relative; }
+
+        /* Buttons */
+        .btn { display: inline-block; padding: 12px 28px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition); text-align: center; border: none; }
+        .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 15px var(--primary-glow); }
+        .btn-primary:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 6px 20px var(--primary-glow); }
+        .btn-outline { background: transparent; color: var(--text-light); border: 1px solid var(--border-color); backdrop-filter: blur(10px); }
+        .btn-outline:hover { background: var(--bg-card-hover); transform: translateY(-2px); }
+        .btn-whatsapp { background: var(--whatsapp); color: #fff; box-shadow: 0 4px 15px var(--whatsapp-glow); }
+        .btn-whatsapp:hover { background: #1ebd5a; transform: translateY(-2px); box-shadow: 0 6px 20px var(--whatsapp-glow); }
+
+        /* Urgency Tag */
+        .urgency-tag { display: inline-flex; items-center; gap: 8px; background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(239, 68, 68, 0.2); }
+        .urgency-tag i { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+        /* --- NAVBAR --- */
+        header { position: fixed; top: 0; width: 100%; z-index: 1000; transition: var(--transition); border-bottom: 1px solid transparent; }
+        header.scrolled { background: rgba(7, 11, 20, 0.85); backdrop-filter: blur(15px); border-bottom: 1px solid var(--border-color); padding: 10px 0; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; transition: var(--transition); }
+        header.scrolled .nav-container { padding: 10px 0; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--text-light); }
+        .logo span { color: var(--primary); }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: var(--text-light); font-weight: 500; font-size: 0.95rem; transition: var(--transition); }
+        .nav-links a:hover { color: var(--primary); }
+        .menu-btn { display: none; font-size: 1.5rem; cursor: pointer; }
+
+        /* --- HERO SECTION --- */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 100px; }
+        .hero-content { max-width: 800px; margin: 0 auto; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; }
+        .hero p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 40px; }
+        .hero-btns { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+
+        /* --- SERVICES SECTION --- */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .service-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 40px 30px; border-radius: 16px; backdrop-filter: blur(10px); transition: var(--transition); text-align: center; }
+        .service-card:hover { transform: translateY(-10px); background: var(--bg-card-hover); border-color: var(--primary); }
+        .service-icon { font-size: 2.5rem; color: var(--secondary); margin-bottom: 20px; }
+        .service-card h3 { margin-bottom: 15px; font-size: 1.2rem; }
+        .service-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+        /* --- PORTFOLIO SECTION --- */
+        .portfolio-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; max-width: 800px; margin: 0 auto; backdrop-filter: blur(10px); }
+        .portfolio-img { width: 100%; height: 400px; background: linear-gradient(45deg, #1e293b, #0f172a); display: flex; align-items: center; justify-content: center; position: relative; }
+        .portfolio-img::before { content: 'Royal Stay Website'; font-size: 2rem; font-weight: 700; color: rgba(255,255,255,0.1); position: absolute; }
+        .portfolio-img i { font-size: 4rem; color: var(--text-muted); z-index: 1; opacity: 0.5; }
+        .portfolio-info { padding: 30px; display: flex; justify-content: space-between; align-items: center; }
+        .portfolio-info h3 { font-size: 1.5rem; }
+        .portfolio-info p { color: var(--text-muted); margin-top: 5px; }
+
+        /* --- WHY CHOOSE US --- */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 50px; }
+        .feature-item { display: flex; align-items: flex-start; gap: 15px; }
+        .feature-icon { background: rgba(37, 99, 235, 0.1); color: var(--primary); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .feature-text h4 { font-size: 1.1rem; margin-bottom: 5px; }
+        .feature-text p { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* --- PRICING SECTION --- */
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; align-items: center; }
+        .price-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 40px; border-radius: 16px; backdrop-filter: blur(10px); transition: var(--transition); position: relative; display: flex; flex-direction: column; height: 100%; }
+        .price-card:hover { border-color: rgba(255, 255, 255, 0.2); }
+        .price-card.popular { background: rgba(37, 99, 235, 0.05); border-color: var(--primary); transform: scale(1.05); z-index: 2; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .popular-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: linear-gradient(to right, var(--primary), var(--secondary)); color: #fff; padding: 6px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        .plan-name { font-size: 1.2rem; font-weight: 600; margin-bottom: 10px; color: var(--text-muted); }
+        .price-card.popular .plan-name { color: var(--secondary); }
+        .plan-price { font-size: 2.5rem; font-weight: 800; margin-bottom: 20px; color: var(--text-light); }
+        .plan-price span { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
+        .plan-features { list-style: none; margin-bottom: 30px; flex-grow: 1; }
+        .plan-features li { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; color: var(--text-light); font-size: 0.95rem; }
+        .plan-features li i { color: var(--primary); font-size: 1rem; }
+        .price-card .btn { width: 100%; margin-top: auto; }
+
+        /* --- TESTIMONIALS --- */
+        .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .testi-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 30px; border-radius: 16px; backdrop-filter: blur(10px); }
+        .stars { color: #facc15; margin-bottom: 15px; font-size: 0.9rem; }
+        .testi-text { font-style: italic; color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; }
+        .testi-author { display: flex; align-items: center; gap: 15px; }
+        .author-avatar { width: 50px; height: 50px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--secondary); }
+        .author-info h4 { font-size: 1rem; }
+        .author-info p { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* --- CONTACT SECTION --- */
+        .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 50px; backdrop-filter: blur(10px); }
+        .contact-info h3 { font-size: 1.8rem; margin-bottom: 20px; }
+        .contact-info p { color: var(--text-muted); margin-bottom: 30px; }
+        .contact-details { display: flex; flex-direction: column; gap: 20px; margin-bottom: 40px; }
+        .contact-detail-item { display: flex; align-items: center; gap: 15px; }
+        .contact-detail-item i { width: 40px; height: 40px; background: rgba(37, 99, 235, 0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .contact-form { display: flex; flex-direction: column; gap: 20px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 15px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-light); outline: none; transition: var(--transition); }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(37,99,235,0.2); }
+        .form-group textarea { height: 120px; resize: none; }
+
+        /* --- FOOTER --- */
+        footer { background: #04070d; padding: 60px 0 20px; border-top: 1px solid var(--border-color); }
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; margin-bottom: 40px; }
+        .footer-brand { max-width: 300px; }
+        .footer-brand p { color: var(--text-muted); margin-top: 15px; font-size: 0.9rem; }
+        .footer-links h4 { margin-bottom: 20px; font-size: 1.1rem; }
+        .footer-links ul { display: flex; flex-direction: column; gap: 10px; }
+        .footer-links a { color: var(--text-muted); font-size: 0.9rem; transition: var(--transition); }
+        .footer-links a:hover { color: var(--primary); padding-left: 5px; }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-size: 0.85rem; }
+
+        /* --- FLOATING WHATSAPP BUTTON --- */
+        .fab-whatsapp { position: fixed; bottom: 30px; right: 30px; background: var(--whatsapp); color: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 1000; transition: var(--transition); text-decoration: none; }
+        .fab-whatsapp:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6); }
+        .fab-whatsapp::before { content: ''; position: absolute; width: 100%; height: 100%; background: var(--whatsapp); border-radius: 50%; z-index: -1; animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite; opacity: 0.7; }
+        @keyframes ping { 75%, 100% { transform: scale(1.5); opacity: 0; } }
+
+        /* --- ANIMATIONS (Reveal on Scroll) --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 992px) {
+            .pricing-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; gap: 40px; }
+            .price-card.popular { transform: scale(1); }
+            .contact-wrapper { grid-template-columns: 1fr; padding: 30px; }
+            .hero h1 { font-size: 2.8rem; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: #070B14; flex-direction: column; padding: 20px; border-bottom: 1px solid var(--border-color); }
+            .nav-links.active { display: flex; }
+            .menu-btn { display: block; }
+            .nav-container .btn { display: none; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1rem; }
+            .section-title { font-size: 2rem; }
+            .portfolio-img { height: 250px; }
+            .portfolio-info { flex-direction: column; gap: 15px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Glows -->
+    <div class="bg-glow-1"></div>
+    <div class="bg-glow-2"></div>
+
+    <!-- Header / Navbar -->
+    <header id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">SmartWeb<span>.</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#contact" class="btn btn-primary">Book Free Consultation</a>
+            <i class="fas fa-bars menu-btn" id="menuBtn"></i>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content reveal">
+                <div class="urgency-tag">
+                    <i class="fas fa-bolt"></i> Limited slots available this month!
+                </div>
+                <h1>We Build Websites That <br><span class="text-gradient">Grow Your Business 🚀</span></h1>
+                <p>Fast, affordable, high-quality websites tailored for small businesses, startups, and local brands. Get online and start attracting clients today.</p>
+                <div class="hero-btns">
+                    <a href="#pricing" class="btn btn-primary">Get Your Website</a>
+                    <a href="https://wa.me/919624601096" target="_blank" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <h2 class="section-title reveal">Our <span class="text-gradient">Premium Services</span></h2>
+            <p class="section-subtitle reveal">Everything you need to establish a powerful online presence.</p>
+            
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <i class="fas fa-desktop service-icon"></i>
+                    <h3>Website Design (UI/UX)</h3>
+                    <p>Clean, modern, and high-converting designs that give your brand a premium and trustworthy look.</p>
+                </div>
+                <div class="service-card reveal">
+                    <i class="fas fa-code service-icon"></i>
+                    <h3>Business Web Development</h3>
+                    <p>Fully functional, responsive websites built specifically for startups and growing local businesses.</p>
+                </div>
+                <div class="service-card reveal">
+                    <i class="fas fa-rocket service-icon"></i>
+                    <h3>Landing Page Design</h3>
+                    <p>Targeted, single-page designs optimized strictly for capturing leads and boosting your ad conversions.</p>
+                </div>
+                <div class="service-card reveal">
+                    <i class="fas fa-sync-alt service-icon"></i>
+                    <h3>Website Redesign</h3>
+                    <p>Turn your old, outdated website into a fast, modern digital asset that users love to browse.</p>
+                </div>
+                <div class="service-card reveal">
+                    <i class="fas fa-chart-line service-icon"></i>
+                    <h3>Basic SEO Optimization</h3>
+                    <p>On-page technical SEO to help your business rank better on Google and attract local searches.</p>
+                </div>
+                <div class="service-card reveal">
+                    <i class="fas fa-mobile-alt service-icon"></i>
+                    <h3>Mobile-First Approach</h3>
+                    <p>Over 70% of traffic is mobile. We ensure your site looks perfect on all smartphones and tablets.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" style="background: rgba(0,0,0,0.2);">
+        <div class="container">
+            <h2 class="section-title reveal">Recent <span class="text-gradient">Work</span></h2>
+            <p class="section-subtitle reveal">See what we've built for our clients.</p>
+            
+            <div class="portfolio-card reveal">
+                <div class="portfolio-img">
+                    <i class="fas fa-hotel"></i>
+                </div>
+                <div class="portfolio-info">
+                    <div>
+                        <h3>Royal Stay</h3>
+                        <p>Modern Hotel Booking & Showcase Website</p>
+                    </div>
+                    <a href="https://royalstay-khvfe87y.manus.space/" target="_blank" class="btn btn-primary"><i class="fas fa-external-link-alt"></i> Live Preview</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section id="why-us">
+        <div class="container">
+            <h2 class="section-title reveal">Why Choose <span class="text-gradient">SmartWeb?</span></h2>
+            <p class="section-subtitle reveal">We focus on quality, speed, and your budget.</p>
+
+            <div class="features-grid">
+                <div class="feature-item reveal">
+                    <div class="feature-icon"><i class="fas fa-wallet"></i></div>
+                    <div class="feature-text">
+                        <h4>Affordable Pricing</h4>
+                        <p>Premium agency-level quality without the massive agency price tag. Perfect for small budgets.</p>
+                    </div>
+                </div>
+                <div class="feature-item reveal">
+                    <div class="feature-icon"><i class="fas fa-shipping-fast"></i></div>
+                    <div class="feature-text">
+                        <h4>Fast Delivery (2–5 Days)</h4>
+                        <p>We respect your time. Get your website live and ready to take orders in under a week.</p>
+                    </div>
+                </div>
+                <div class="feature-item reveal">
+                    <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <div class="feature-text">
+                        <h4>Mobile-Friendly Design</h4>
+                        <p>Fully responsive structure that adapts beautifully to any device screen size.</p>
+                    </div>
+                </div>
+                <div class="feature-item reveal">
+                    <div class="feature-icon"><i class="fas fa-paint-brush"></i></div>
+                    <div class="feature-text">
+                        <h4>Clean & Modern UI</h4>
+                        <p>We use the latest design trends to ensure your brand stands out from competitors.</p>
+                    </div>
+                </div>
+                <div class="feature-item reveal">
+                    <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                    <div class="feature-text">
+                        <h4>Post-Delivery Support</h4>
+                        <p>We don't just disappear. We offer ongoing support and minor tweaks after your site is live.</p>
+                    </div>
+                </div>
+                <div class="feature-item reveal">
+                    <div class="feature-icon"><i class="fab fa-whatsapp"></i></div>
+                    <div class="feature-text">
+                        <h4>Direct Communication</h4>
+                        <p>Chat directly with the founder on WhatsApp. No confusing ticketing systems.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" style="background: rgba(0,0,0,0.2);">
+        <div class="container">
+            <h2 class="section-title reveal">Simple, Transparent <span class="text-gradient">Pricing</span></h2>
+            <p class="section-subtitle reveal">Choose the perfect plan to grow your brand.</p>
+
+            <div class="pricing-grid">
+                <!-- Starter Plan -->
+                <div class="price-card reveal">
+                    <h3 class="plan-name">Starter</h3>
+                    <div class="plan-price">₹5,000<span>/project</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check-circle"></i> 1–3 Pages Website</li>
+                        <li><i class="fas fa-check-circle"></i> Mobile Responsive</li>
+                        <li><i class="fas fa-check-circle"></i> Basic Design</li>
+                        <li><i class="fas fa-check-circle"></i> Contact Form</li>
+                        <li><i class="fas fa-check-circle"></i> Delivery in 3–5 Days</li>
+                    </ul>
+                    <a href="https://wa.me/919624601096?text=Hi%20Pruthviraj,%20I'm%20interested%20in%20the%20Starter%20Plan%20(₹5,000)." target="_blank" class="btn btn-outline">Select Plan</a>
+                </div>
+
+                <!-- Business Plan (Highlighted) -->
+                <div class="price-card popular reveal">
+                    <div class="popular-badge">Most Popular</div>
+                    <h3 class="plan-name">Business</h3>
+                    <div class="plan-price">₹12,500<span>/project</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check-circle"></i> 4–6 Pages Website</li>
+                        <li><i class="fas fa-check-circle"></i> Premium UI Design</li>
+                        <li><i class="fas fa-check-circle"></i> Mobile + Tablet Responsive</li>
+                        <li><i class="fas fa-check-circle"></i> Contact Form + WhatsApp</li>
+                        <li><i class="fas fa-check-circle"></i> Basic SEO Setup</li>
+                        <li><i class="fas fa-check-circle"></i> Fast Loading Optimization</li>
+                        <li><i class="fas fa-check-circle"></i> Delivery in 4–7 Days</li>
+                    </ul>
+                    <a href="https://wa.me/919624601096?text=Hi%20Pruthviraj,%20I'm%20interested%20in%20the%20Business%20Plan%20(₹12,500)." target="_blank" class="btn btn-primary">Select Plan</a>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="price-card reveal">
+                    <h3 class="plan-name">Premium</h3>
+                    <div class="plan-price">₹19,999<span>/project</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check-circle"></i> 6–10 Pages Website</li>
+                        <li><i class="fas fa-check-circle"></i> Fully Custom Premium Design</li>
+                        <li><i class="fas fa-check-circle"></i> Advanced UI/UX</li>
+                        <li><i class="fas fa-check-circle"></i> WhatsApp + Call Integration</li>
+                        <li><i class="fas fa-check-circle"></i> Complete SEO Optimization</li>
+                        <li><i class="fas fa-check-circle"></i> Speed Optimization</li>
+                        <li><i class="fas fa-check-circle"></i> Extra Sections included</li>
+                        <li><i class="fas fa-check-circle"></i> Priority Support</li>
+                        <li><i class="fas fa-check-circle"></i> Delivery in 5–10 Days</li>
+                    </ul>
+                    <a href="https://wa.me/919624601096?text=Hi%20Pruthviraj,%20I'm%20interested%20in%20the%20Premium%20Plan%20(₹19,999)." target="_blank" class="btn btn-outline">Select Plan</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials">
+        <div class="container">
+            <h2 class="section-title reveal">Client <span class="text-gradient">Success Stories</span></h2>
+            <p class="section-subtitle reveal">Don't just take our word for it.</p>
+
+            <div class="testi-grid">
+                <div class="testi-card reveal">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testi-text">"Pruthviraj and the SmartWeb team transformed our local shop's online presence. The site looks incredibly premium and we started getting online inquiries within a week. Highly recommended!"</p>
+                    <div class="testi-author">
+                        <div class="author-avatar">A</div>
+                        <div class="author-info">
+                            <h4>Amit Desai</h4>
+                            <p>Local Retail Owner</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card reveal">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testi-text">"I was on a tight budget for my startup, but SmartWeb delivered a lightning-fast, beautiful website. The ₹12,500 Business plan is an absolute steal for the quality you get."</p>
+                    <div class="testi-author">
+                        <div class="author-avatar">N</div>
+                        <div class="author-info">
+                            <h4>Neha Sharma</h4>
+                            <p>Startup Founder</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card reveal">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="testi-text">"Very professional and extremely fast. They delivered my landing page in just 3 days! The post-delivery support from Pruthviraj has also been fantastic."</p>
+                    <div class="testi-author">
+                        <div class="author-avatar">R</div>
+                        <div class="author-info">
+                            <h4>Rohan Mehta</h4>
+                            <p>Business Consultant</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title reveal">Let's Build Something <span class="text-gradient">Great</span></h2>
+            <p class="section-subtitle reveal">Have a project in mind? Reach out and let's discuss.</p>
+
+            <div class="contact-wrapper reveal">
+                <div class="contact-info">
+                    <h3>Get In Touch</h3>
+                    <p>Ready to start? Fill out the form or reach out directly on WhatsApp for an instant reply.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-detail-item">
+                            <i class="fas fa-user"></i>
+                            <div>
+                                <p style="margin:0; color:var(--text-muted); font-size:0.85rem;">Founder</p>
+                                <h4>Pruthviraj</h4>
+                            </div>
+                        </div>
+                        <div class="contact-detail-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <div>
+                                <p style="margin:0; color:var(--text-muted); font-size:0.85rem;">Call us directly</p>
+                                <h4>+91 96246 01096</h4>
+                            </div>
+                        </div>
+                        <div class="contact-detail-item">
+                            <i class="fab fa-whatsapp"></i>
+                            <div>
+                                <p style="margin:0; color:var(--text-muted); font-size:0.85rem;">WhatsApp chat</p>
+                                <h4><a href="https://wa.me/919624601096" target="_blank" style="color: var(--primary);">Click to Chat</a></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phone" placeholder="Your Phone Number" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" placeholder="Tell us about your project requirements..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; border: none; font-size: 1rem;">Send Message <i class="fas fa-paper-plane" style="margin-left: 5px;"></i></button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#" class="logo">SmartWeb<span>.</span></a>
+                    <p>Building high-performance, beautiful, and affordable websites for modern businesses.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#portfolio">Portfolio</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-user"></i> Pruthviraj</a></li>
+                        <li><a href="tel:+919624601096"><i class="fas fa-phone"></i> +91 96246 01096</a></li>
+                        <li><a href="https://wa.me/919624601096" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="year"></span> SmartWeb Agency. Owned by Pruthviraj. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/919624601096" target="_blank" class="fab-whatsapp" title="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- JavaScript -->
+    <script>
+        // Set dynamic copyright year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Sticky Navbar Effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if(navLinks.classList.contains('active')){
+                menuBtn.classList.replace('fa-bars', 'fa-times');
+            } else {
+                menuBtn.classList.replace('fa-times', 'fa-bars');
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuBtn.classList.replace('fa-times', 'fa-bars');
+            });
+        });
+
+        // Scroll Reveal Animations using Intersection Observer
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Optional: stop observing once revealed
+                }
+            });
+        };
+
+        const revealOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const revealObserver = new IntersectionObserver(revealCallback, revealOptions);
+        
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Form Submission Handling (Simulated)
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            btn.style.opacity = '0.8';
+            
+            // Simulate network request
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+                btn.style.background = '#25D366'; // Green success color
+                this.reset();
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = ''; // Revert to original
+                    btn.style.opacity = '1';
+                }, 3000);
+            }, 1500);
+        });
+    </script>
+</body>
+  </html>
